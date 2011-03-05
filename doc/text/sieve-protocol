@@ -1,0 +1,56 @@
+Protocol for Sieve script exchange
+
+    Please note that this document is not authoritative and may well be out
+    of date; you should look at specs.html for the current authoritative
+    document for the MANAGESIEVE protocol. Note: This is not a standards
+    track protocol. If you decide to base a program upon it you have been
+    warned. This is a simple text-based protocol for getting user sieve
+    scripts onto the (presumably sealed) IMAP server. The requirements for
+    this process are: 
+
+      * the user must authenticate to gain access, preferably via a secure
+        SASL mechanism. 
+      * only valid sieve scripts may be accepted 
+
+    Additional features provided: 
+
+      * the ability to manage multiple scripts on the server with zero or
+        one of them being the "active" sieve script 
+
+Types
+
+    This is a line-oriented protocol much like [IMAP] or [ACAP]. There are
+    two types: ATOMS and strings, all space ('SP') separated. Strings may
+    be quoted or literal. See [ACAP] for detailed descriptions. 
+    sievename is a string where only certain characters are allowed and it
+    must be at least 1 character long. 
+
+Commands
+
+    AUTHENTICATE SP string [SP string] EOL 
+            SASL authentication; the parameters are the mechanism and
+            optionally the initial data. Initial data is base64 encoded.
+            The server replies with an OK or NO response, or a base64
+            string followed by an EOL. Client then replies with a base64
+            string followed by an EOL, and the procedure is repeated. 
+    NOOP EOL 
+            No side effects. Valid replies: OK or NO. 
+    LOGOUT EOL 
+            Logout: terminates connection. Valid replies: OK or NO. 
+    GETSCRIPT SP sievename EOL 
+            The parameter is the name of the requested script. Returns:
+            string EOL containing the script data. Get the script with name
+            sievename from the server. Valid replies: OK or NO. 
+    PUTSCRIPT SP sievename SP string EOL 
+            Puts sievename with data data onto the server if possible.
+            Valid replies: OK or NO. 
+    SETACTIVE SP sievename EOL 
+            Set the script with the name sievename as the active script.
+            Any other script that was active is no longer. Valid replies:
+            OK or NO. 
+    DELETESCRIPT SP sievename EOL 
+            Delete the script with sievename. Valid replies: OK or NO. 
+    LISTSCRIPTS EOL 
+            Returns zero or more: sievename EOL. Where the active script
+            has a '*' at the end of its name. Valid replies: OK or NO. 
+

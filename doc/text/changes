@@ -1,0 +1,40 @@
+Changes to the Cyrus IMAP Server since 2.4.5
+
+      * Fixed Bug #3370 - corruption on OpenBSD and other systems without a
+        reliable mmap 
+      * Fixed Bug #3360 - race condition which could lose seen data on XFER
+        with upgrade 
+      * Lots of documentation updates 
+      * Fixed Bug #3355 - added an option to suppress items from the
+        capability response (and bug #3356 when the first attempt was
+        buggy) 
+      * Fixed Bug #3357 - crash when calling ctl_mboxlist on mailboxes with
+        annotations 
+      * Fixed Bug #3369 - crash when undumping mailbox during XFER 
+      * Fixed Bug #3361 - shared folders not listing in LSUB "" % - only
+        with unixheirsep and altnamespace 
+      * Fixed Bug #3362 - "too many open files" when doing XFER of a user
+        with too many sub mailboxes. Makes XFER less "atomic", but now it
+        works, which is good! 
+      * Fixed Bug #3313 - md5 library usage. Properly this time! 
+
+Changes to the Cyrus IMAP Server since 2.4.4
+
+      * Tidy up of the git version number added to the ID response 
+      * Fixed incorrect time field in date searches (Bug #3339) - thanks
+        Greg Banks for noticing this one 
+      * Fixed reconstruct crash and other potential issues (Bug #3353) -
+        first reported Paul Dekkers 
+      * Fixed ACL passing for rename/delete on murder backends (Bug #3342)
+        - first reported by Robert Spellman 
+      * Fixed corruption of long (>1024 byte) seen records on replica (Bug
+        #3344) - found at FastMail by Bron Gondwana 
+      * Made all perl utilities use /usr/bin/perl in the #! line (Bug
+        #2275) - reported by Yann Rouillard over 5 years ago! 
+      * Fixed crash on message with incomplete final boundary (Bug #3345) -
+        found at FastMail by Bron Gondwana 
+      * Regression: sync_crc was being set to 00000000 on repack -
+        introduced in 2.4.4 (Bug #3347) - first found at FastMail, but also
+        seen at multiple other sites 
+      * Always print [CLOSED] response when selecting a new mailbox, even
+        if a CONDSTORE enabling command has not been sent (Bug #3352) -

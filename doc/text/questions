@@ -1,0 +1,6 @@
+    Questions we really should answer. If you feel like doing us a favor,
+    sit down and answer one. 
+
+      * What are the performance implications of single-instance store (as
+        of 1.6.22)? 
+
